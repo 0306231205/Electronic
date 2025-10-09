@@ -43,7 +43,8 @@ class WebController extends Controller
 
     }
     public function shop(){
-        return view("shop");
+        $product=DB::table('products')->get();
+        return view("shop",['products'=>$product]);
     }
     public function singleproduct(){
         return view("single-product");
