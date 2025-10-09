@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ResultToken;
+use App\Http\Middleware\IsLogin;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -17,7 +18,10 @@ Route::get('/single-product',[WebController::class,'singleproduct']);
 Route::get('/contact',[WebController::class,'contact']);
 Route::post('/addContact',[ContactController::class,'addContact']);
 //Rou Home Admin
-Route::view('/admin',[AdminController::class,'admin.HomeAdmin']);
+Route::get('/admin',[AdminController::class,'LoadAdmin'])->name('admin.index')->middleware(IsLogin::class);
+Route::get('/admin/login',[AdminController::class,'loginPage'])->name('admin.login');
+Route::post("/admin/login",[AdminController::class,'login']);
+
 //fallback lỗi url
 Route::fallback(function(){
     return "<h1>URL khong ton tai</h1>";
