@@ -7,11 +7,9 @@ use Illuminate\Http\Request;
 class WebController extends Controller
 {
     public function cart(){
-        return view("cart");
+        return view("user.cart");
     }
-    public function checkout(){
-        return view("checkout");
-    }
+
     public function index(){
         /**
          *Select * from products =>DB::table('products)->get()
@@ -37,25 +35,24 @@ class WebController extends Controller
         $products_recently_view=DB::table('products')->where('loai',2)->limit(3)->get();
         $products_top_new=DB::table('products')->where('loai',3)->limit(3)->get();
 
-        return view("index",['products_seller'=>$products_seller,'products_recently_view'=>$products_recently_view,
+        return view("user.index",['products_seller'=>$products_seller,'products_recently_view'=>$products_recently_view,
                         'products_top_new'=>$products_top_new
                     ]);
 
     }
     public function shop(){
-        return view("shop");
+        $product=DB::table('products')->get();
+        return view("user.shop",['products'=>$product]);
     }
-    public function singleproduct(){
-        return view("single-product");
-    }
+
     public function contact(){
-        return view("contact");
+        return view("user.contact");
     }
     public function login(){
-        return view('login');
+        return view('user.login');
     }
     public function signup(){
-        return view('signup');
+        return view('user.signup');
     }
     public function dangNhap(Request $request){
         return back()->with('status','Đăng nhập không thành công');

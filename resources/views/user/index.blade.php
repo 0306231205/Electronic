@@ -266,7 +266,7 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-wid-price">
-                                <ins>${{$product_seller->price}}</ins> <del>${{$product_seller->discount_price}}</del>
+                                <ins>${{$product_seller->discount_price}}</ins> <del>${{$product_seller->price}}</del>
                             </div>
                         </div>
                         @endforeach
@@ -289,7 +289,7 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-wid-price">
-                                <ins>${{$product_rencently_view->price}}</ins> <del>${{$product_rencently_view->discount_price}}</del>
+                                <ins>${{$product_rencently_view->discount_price}}</ins> <del>${{$product_rencently_view->price}}</del>
                             </div>
                         </div>
                         @endforeach
@@ -312,7 +312,7 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-wid-price">
-                                <ins>${{ $product_top_new->price}}</ins> <del>${{ $product_top_new->discount_price}}</del>
+                                <ins>${{ $product_top_new->discount_price}}</ins> <del>${{ $product_top_new->price}}</del>
                             </div>
                         </div>
                         @endforeach
