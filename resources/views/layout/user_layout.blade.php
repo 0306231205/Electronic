@@ -99,7 +99,7 @@
         </div>
     </div> <!-- End mainmenu area -->
     @yield('main')
-     <div class="footer-top-area">
+    <div class="footer-top-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
