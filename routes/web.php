@@ -2,6 +2,7 @@
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ResultToken;
 use App\Http\Middleware\IsLogin;
@@ -32,7 +33,7 @@ Route::post('/addContact',[ContactController::class,'addContact']);
 //--------------------------------------------Route Admin-----------------------------------------------
 
 //Route Trang Chủ Admin + Kiểm Tra Login Bằng Middleware
-Route::get('/admin',[AdminController::class,'LoadAdmin'])->name('admin.index')->middleware(IsLogin::class);
+Route::get('/admin',[AdminController::class,'LoadAdmin'])->name('admin.index')->middleware(IsLogin::class)->middleware(IsAdmin::class);
 //Route Trang Login Admin
 Route::get('/admin/login',[AdminController::class,'loginPage'])->name('admin.login');
 Route::post("/admin/login",[AdminController::class,'login']);
