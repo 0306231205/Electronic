@@ -22,11 +22,11 @@ class AdminController extends Controller
     public function login(AdminLoginRequest $request)
     {
 
-        $user=DB::table('users')->where('username', $request->username)->where('password',$request->password)->first();
-         if(!$user) return redirect()->route('admin.login')->with('status',"Username hoặc password không đúng");
-            session()->put('login',true);
-            session()->put('user',$user->role);
-            return redirect()->route('admin.index');
+        $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
+        if (!$user) return redirect()->route('admin.login')->with('status', "Username hoặc password không đúng");
+        session()->put('login', true);
+        session()->put('user', $user->role);
+        return redirect()->route('admin.index');
     }
 
     public function SanPham()
