@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\AdminLoginRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class AdminController extends Controller
 {
@@ -93,5 +95,25 @@ class AdminController extends Controller
         DB::table('products')->insert($data);
 
         return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công');
+    }
+
+    //Controller xóa sản phẩm
+    public function XoaSanPham($id)
+    {
+        // Tìm sản phẩm theo ID
+        $product = DB::table('products')->where('id', $id)->first();
+
+        if (!$product) {
+            return redirect()->route('admin.sanpham')->with('error', 'Sản phẩm không tồn tại');
+        }
+
+        // Nếu có ảnh thì xóa khỏi storage
+        if (!empty($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        DB::table('products')->where('id', $id)->delete();
+
+        return redirect()->route('admin.sanpham')->with('status', 'Xóa sản phẩm thành công');
     }
 }
