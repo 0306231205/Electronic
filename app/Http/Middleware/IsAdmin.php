@@ -15,7 +15,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-       if(session()->get('user')==1){
+       if(session()->get('user_role')==1){
             return $next($request);
         }else{
             return redirect()->route('user.index');

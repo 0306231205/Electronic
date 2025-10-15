@@ -25,7 +25,7 @@ class AdminController extends Controller
         $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
         if (!$user) return redirect()->route('admin.login')->with('status', "Username hoặc password không đúng");
         session()->put('login', true);
-        session()->put('user', $user->role);
+        session()->put('user_role', $user->role);
         return redirect()->route('admin.index');
     }
 
