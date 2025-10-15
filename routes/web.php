@@ -47,6 +47,8 @@ Route::get('/admin/nguoidung',[AdminController::class,'NguoiDung'])->name('admin
 //Router AddSanPham
 Route::get('/admin/addsanpham',[AdminController::class,'AddProduct'])->name('admin.addProduct');
 Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham']);
+//Route Sản Phẩm Admin -> Xóa
+Route::delete('/admin/sanpham/xoa/{id}', [AdminController::class, 'XoaSanPham'])->name('admin.sanpham.xoa');
 
 
 
