@@ -44,9 +44,9 @@ class AdminController extends Controller
 
     public function NhaCungCap()
     {
-        $dsNhacungcap = DB::table('suppliers')->get();
+        $DsNhacungcap = DB::table('suppliers')->get();
 
-        return view('admin.NhaCungCapAdmin', ['dsNhacungcap' => $dsNhacungcap]);
+        return view('admin.NhaCungCapAdmin', ['DsNhacungcap' => $DsNhacungcap]);
     }
 
     public function LoaiSanPham()

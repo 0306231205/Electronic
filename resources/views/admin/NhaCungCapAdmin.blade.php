@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dsNhacungcap as $ds)
+                @foreach ($DsNhacungcap as $ds)
                     <tr>
                         <td>{{ $ds->id }}</td>
                         <td>{{ $ds->name }}</td>
