@@ -27,7 +27,7 @@ class AddProductRequest extends FormRequest
             'discount_price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'category' => 'required|integer',
-            'type' => 'required|integer',
+            'type' => 'required|integer|in:0,1,2,3',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'brand' => 'nullable|integer',
             'tag' => 'nullable|string|max:255',
