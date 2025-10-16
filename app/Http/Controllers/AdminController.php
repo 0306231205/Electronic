@@ -61,7 +61,10 @@ class AdminController extends Controller
 
     public function AddProduct()
     {
-        return view('admin.addProduct');
+        $category=DB::table('categories')->select('id','name')->get();
+        $suppliers=DB::table('suppliers')->select('id','name')->get();
+        $brands=DB::table('brands')->select('id','name')->get();
+        return view('admin.addProduct',['categories'=>$category,'suppliers'=>$suppliers,'brands'=>$brands]);
     }
 
     public function ThemSanPham(AddProductRequest $request)

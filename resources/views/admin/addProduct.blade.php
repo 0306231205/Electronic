@@ -29,8 +29,12 @@
         <input type="file" id="image" name="image"><br><br>
 
         <label for="category">Loại Sản Phẩm:</label><br>
-        <input type="number" id="category" name="category" required><br><br>
 
+        <select name="category" >
+            @foreach ($categories as $category)
+                <option value={{$category->id}}>{{$category->name}}</option>
+            @endforeach
+        </select>
         <label for="type">Loại:</label><br>
         <input type="number" id="type" name="type" required><br><br>
 
@@ -38,14 +42,22 @@
         <input type="text" id="tag" name="tag" required><br><br>
 
         <label for="status">Trạng Thái:</label><br>
-        <input type="number" id="status" name="status" required><br><br>
-
+        <select name="status">
+            <option value="1">Hoạt động</option>
+            <option value="0">Không hoạt động</option>
+        </select>
         <label for="brand">Thương Hiệu:</label><br>
-        <input type="number" id="brand" name="brand" required><br><br>
-
+        <select name="brand">
+            @foreach ($brands as $brand)
+                <option value={{$brand->id}}>{{$brand->name}}</option>
+            @endforeach
+        </select>
         <label for="supplier">Nhà Cung Cấp:</label><br>
-        <input type="number" id="supplier" name="supplier" required><br><br>
-
+        <select name="supplier" >
+            @foreach ($suppliers as $supplier)
+                <option value={{$supplier->id}}>{{$supplier->name}}</option>
+            @endforeach
+        </select>
         <div class="button-group">
             <button type="submit" class="btn btn-add">
                 Thêm sản phẩm
