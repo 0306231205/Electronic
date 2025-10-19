@@ -22,7 +22,7 @@ class AddProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:products,name',
             'price' => 'required|numeric|min:0',
             'discount_price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
@@ -41,6 +41,7 @@ class AddProductRequest extends FormRequest
         return [
             'name.required' => 'Vui lòng nhập tên sản phẩm',
             'name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự',
+            'name.unique' => 'Tên sản phẩm này đã tồn tại trong hệ thống',
 
             'price.required' => 'Vui lòng nhập giá sản phẩm',
             'price.numeric' => 'Giá phải là số hợp lệ',

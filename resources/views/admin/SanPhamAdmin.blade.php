@@ -6,6 +6,13 @@
 
 @section('admin')
     <div class="container">
+        @if (session('status'))
+            <div class="alert alert-success">{{ session('status') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
         <div class="header">
             <a href="{{ route('admin.addProduct') }}" class="create-button">
                 <span class="icon">+</span> Tạo mới
@@ -46,7 +53,12 @@
                         <td>
                             <div class="action-buttons">
                                 <button class="action-button edit-btn">✏️</button>
-                                <button class="action-button delete-btn">🗑️</button>
+                                <!-- form request xóa-->
+                                <form action="{{ route('admin.sanpham.xoa', $dssanpham->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                        <button class="action-button delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">🗑️</button>
+                                </form>
                             </div>
                         </td>
                     </tr>

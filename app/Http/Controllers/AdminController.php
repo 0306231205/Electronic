@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\AdminLoginRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class AdminController extends Controller
 {
@@ -22,16 +24,10 @@ class AdminController extends Controller
     public function login(AdminLoginRequest $request)
     {
 
-        $user = DB::table('users')->where('username', $request->username)->count();
-        if ($user == 0) {
-            return redirect()->route('admin.login')->with('status', 'Username k ton tai');
-        }
-        $password = DB::table('users')->where('password', $request->password)->where('username', $request->username)->count();
-        if ($password == 0) {
-            return redirect()->route('admin.login')->with('status', 'Password sai ');
-        }
+        $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
+        if (!$user) return redirect()->route('admin.login')->with('status', "Username hoặc password không đúng");
         session()->put('login', true);
-
+        session()->put('user_role', $user->role);
         return redirect()->route('admin.index');
     }
 
@@ -65,7 +61,10 @@ class AdminController extends Controller
 
     public function AddProduct()
     {
-        return view('admin.addProduct');
+        $category=DB::table('categories')->select('id','name')->get();
+        $suppliers=DB::table('suppliers')->select('id','name')->get();
+        $brands=DB::table('brands')->select('id','name')->get();
+        return view('admin.addProduct',['categories'=>$category,'suppliers'=>$suppliers,'brands'=>$brands]);
     }
 
     public function ThemSanPham(AddProductRequest $request)
@@ -93,5 +92,25 @@ class AdminController extends Controller
         DB::table('products')->insert($data);
 
         return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công');
+    }
+
+    //Controller xóa sản phẩm
+    public function XoaSanPham($id)
+    {
+        // Tìm sản phẩm theo ID
+        $product = DB::table('products')->where('id', $id)->first();
+
+        if (!$product) {
+            return redirect()->route('admin.sanpham')->with('error', 'Sản phẩm không tồn tại');
+        }
+
+        // Nếu có ảnh thì xóa khỏi storage
+        if (!empty($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        DB::table('products')->where('id', $id)->delete();
+
+        return redirect()->route('admin.sanpham')->with('status', 'Xóa sản phẩm thành công');
     }
 }
