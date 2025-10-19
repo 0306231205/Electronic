@@ -14,6 +14,7 @@ class AdminController extends Controller
     public function LoadAdmin()
     {
         return view('admin.HomeAdmin');
+        
     }
 
     public function loginPage()
