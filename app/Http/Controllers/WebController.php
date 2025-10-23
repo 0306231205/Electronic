@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Products;
 
 class WebController extends Controller
 {
@@ -31,9 +32,9 @@ class WebController extends Controller
          *  DB::table('products')->where('id',1)->delete()
          * DB::table('products)->truncate()
          */
-        $products_seller=DB::table('products')->where('loai',1)->limit(3)->get();
-        $products_recently_view=DB::table('products')->where('loai',2)->limit(3)->get();
-        $products_top_new=DB::table('products')->where('loai',3)->limit(3)->get();
+        $products_seller=Products::productSeller();
+        $products_recently_view=Products::productRecentlyView();
+        $products_top_new=Products::productTopNew();
 
         return view("user.index",['products_seller'=>$products_seller,'products_recently_view'=>$products_recently_view,
                         'products_top_new'=>$products_top_new

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\AdminLoginRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\Categories;
+use App\Models\Suppliers;
+use App\Models\Users;
+use App\Models\Products;
 
 class AdminController extends Controller
 {
@@ -31,28 +35,28 @@ class AdminController extends Controller
 
     public function SanPham()
     {
-        $dssanpham = DB::table('products')->get();
+        $dssanpham = Products::listProduct();
 
         return view('admin.SanPhamAdmin', ['dssanpham' => $dssanpham]);
     }
 
     public function NhaCungCap()
     {
-        $dsNhacungcap = DB::table('suppliers')->get();
+        $dsNhacungcap = Suppliers::listSuppliers();
 
         return view('admin.NhaCungCapAdmin', ['dsNhacungcap' => $dsNhacungcap]);
     }
 
     public function LoaiSanPham()
     {
-        $dsLoaisanpham = DB::table('categories')->get();
+        $dsLoaisanpham =Categories::listCategories();
 
         return view('admin.LoaiSanPhamAdmin', ['dsLoaisanpham' => $dsLoaisanpham]);
     }
 
     public function NguoiDung()
     {
-        $dsNguoiDung = DB::table('users')->get();
+        $dsNguoiDung = Users::listUsers();
 
         return view('admin.NguoiDungAdmin', ['dsNguoiDung' => $dsNguoiDung]);
     }
@@ -84,7 +88,7 @@ class AdminController extends Controller
             $imagePath = $request->file('image')->store('uploads', 'public');
             $data['image'] = $imagePath;
         }
-        DB::table('products')->insert($data);
+       Products::insertProduct($data);
 
         return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công');
     }

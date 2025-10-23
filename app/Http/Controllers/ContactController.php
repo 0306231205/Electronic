@@ -21,6 +21,6 @@ class ContactController extends Controller
             'title'=>$req->title,
             'content'=>$req->content
         ]);
-        return view('viewContact',['name'=>$req->name,'email'=>$req->email,'phone'=>$req->phone,'title'=>$req->title,'content'=>$req->content]);
+        return view('user.viewContact',['name'=>$req->name,'email'=>$req->email,'phone'=>$req->phone,'title'=>$req->title,'content'=>$req->content]);
     }
 }
