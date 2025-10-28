@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\Categories;
+use App\Models\Products;
 use App\Models\Suppliers;
 use App\Models\Users;
-use App\Models\Products;
+//use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -29,9 +30,12 @@ class AdminController extends Controller
     {
 
         $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
-        if (!$user) return redirect()->route('admin.login')->with('status', "Username hoặc password không đúng");
+        if (! $user) {
+            return redirect()->route('admin.login')->with('status', 'Username hoặc password không đúng');
+        }
         session()->put('login', true);
         session()->put('user_role', $user->role);
+
         return redirect()->route('admin.index');
     }
 
@@ -51,7 +55,7 @@ class AdminController extends Controller
 
     public function LoaiSanPham()
     {
-        $dsLoaisanpham =Categories::listCategories();
+        $dsLoaisanpham = Categories::listCategories();
 
         return view('admin.LoaiSanPhamAdmin', ['dsLoaisanpham' => $dsLoaisanpham]);
     }
@@ -73,29 +77,38 @@ class AdminController extends Controller
 
     public function ThemSanPham(AddProductRequest $request)
     {
-        $validate = $request->validated();
-        $data = [
-            'name' => $validate['name'],
-            'discount_price' => $validate['discount_price'] ?? 0,
-            'price' => $validate['price'] ?? 0,
-            'description' => $validate['description'] ?? null,
-            'category_id' => $validate['category'],
-            'loai' => $validate['type'],
-            'tags' => $validate['tag'] ?? null,
-            'status' => $validate['status'] ?? 0,
-            'brand_id' => $validate['brand'] ?? null,
-            'supplier_id' => $validate['supplier'],
-            'image' => $validate['image'] ?? null,
-        ];
+        $validated = $request->validated();
+
+          $data = [
+        'name' => $validated['name'],
+        'price' => $validated['price'] ?? null,
+        'discount_price' => $validated['discount_price'] ?? null,
+        'description' => $validated['description'] ?? null,
+        'category_id' => $validated['category_id'] ,
+        'loai' => $validated['type'] ,
+        'image' => $imagePath ?? null,
+        'brand_id' => $validated['brand'] ,
+        'tags' => $validated['tag'] ?? null,
+        'status' => $validated['status'] ?? 1,
+        'supplier_id' => $validated['supplier'] ?? 1,
+    ];
+
+        // Xử lý upload hình ảnh
         if ($request->hasFile('image')) {
-            // store('uploads', 'public') dùng để lưu file
-            // file('image') là lấy file upload từ input
             $imagePath = $request->file('image')->store('uploads', 'public');
             $data['image'] = $imagePath;
         }
-       Products::insertProduct($data);
 
-        return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công');
+        Products::insertProduct($data);
+
+        return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công!');
+    }
+
+    public function responeJsonCategories()
+    {
+        $dsDanhMuc = Categories::listCategories();
+
+        return response()->json($dsDanhMuc);
     }
 
     //Controller xóa sản phẩm

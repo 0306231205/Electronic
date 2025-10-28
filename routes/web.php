@@ -52,6 +52,9 @@ Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham']);
 Route::delete('/admin/sanpham/xoa/{id}', [AdminController::class, 'XoaSanPham'])->name('admin.sanpham.xoa');
 
 
+Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham'])->name('admin.addsanpham');
+//Router lay danh sach (Get) danh muc
+Route::get('/admin/categories', [AdminController::class, 'responeJsonCategories'])->name('admin.jSonCategories');
 
 
 

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Models\Categories;
 class AddProductRequest extends FormRequest
 {
     /**
@@ -22,11 +22,11 @@ class AddProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:products,name',
+           'name' => 'required|string|max:255|unique:products,name',
             'price' => 'required|numeric|min:0',
             'discount_price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
-            'category' => 'required|integer',
+            'category_id' => 'required|integer',
             'type' => 'required|integer',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'brand' => 'nullable|integer',
@@ -39,6 +39,7 @@ class AddProductRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.unique' => 'Tên sản phẩm này đã tồn tại trong hệ thống!',
             'name.required' => 'Vui lòng nhập tên sản phẩm',
             'name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự',
             'name.unique' => 'Tên sản phẩm này đã tồn tại trong hệ thống',
@@ -51,8 +52,8 @@ class AddProductRequest extends FormRequest
             'discount_price.numeric' => 'Giá giảm phải là số hợp lệ',
             'discount_price.min' => 'Giá giảm phải lớn hơn hoặc bằng 0',
 
-            'category.required' => 'Vui lòng chọn loại sản phẩm',
-            'category.integer' => 'Loại sản phẩm không hợp lệ',
+            'category_id.required' => 'Vui lòng chọn loại sản phẩm',
+            'category_id.integer' => 'Loại sản phẩm không hợp lệ',
 
             'type.required' => 'Vui lòng chọn loại',
             'type.integer' => 'Loại không hợp lệ',
@@ -71,4 +72,13 @@ class AddProductRequest extends FormRequest
             'status.integer' => 'Trạng thái phải là số',
         ];
     }
+    protected function prepareForValidation()
+{
+    // Nếu không có category_id thì gán danh mục đầu tiên
+    if (!$this->has('category_id') || empty($this->category_id)) {
+        $this->merge([
+            'category_id' => Categories::query()->value('id'),
+        ]);
+    }
+}
 }

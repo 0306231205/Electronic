@@ -45,7 +45,7 @@
                         <td>{{ $dssanpham->discount_price }}</td>
                         <td>{{ $dssanpham->description }}</td>
                         <td>{{ $dssanpham->image }}</td>
-                        <td>{{ $dssanpham->category_id }}</td>
+                       <td>{{ $dssanpham->category_name }}</td>
                         <td>{{ $dssanpham->loai }}</td>
                         <td>{{ $dssanpham->tags }}</td>
                         <td>{{ $dssanpham->status }}</td>

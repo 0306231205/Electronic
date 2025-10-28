@@ -58,5 +58,6 @@ class WebController extends Controller
     public function dangNhap(Request $request){
         return back()->with('status','Đăng nhập không thành công');
     }
-
+   
+    
 }
