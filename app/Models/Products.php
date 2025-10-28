@@ -44,12 +44,25 @@ class Products extends Model
             //Lấy Danh Sách Sản Phẩm
     public static function listProduct()
     {
-        return self::all();
+        return self::select('products.*', 'categories.name as category_name')
+        ->join('categories', 'categories.id', '=', 'products.category_id')
+        ->get();
     }
             //Thêm Sản Phẩm
     public static function insertProduct($data)
     {
         return self::create($data);
     }
+
+    public function category()
+{
+    return $this->belongsTo(Categories::class, 'category_id');
+}
+
+
+
+
+
      public $timestamps = false;
+     
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Models\Categories;
 class AddProductRequest extends FormRequest
 {
     /**
@@ -71,4 +71,13 @@ class AddProductRequest extends FormRequest
             'status.integer' => 'Trạng thái phải là số',
         ];
     }
+    protected function prepareForValidation()
+{
+    // Nếu không có category_id thì gán danh mục đầu tiên
+    if (!$this->has('category_id') || empty($this->category_id)) {
+        $this->merge([
+            'category_id' => Categories::query()->value('id'),
+        ]);
+    }
+}
 }

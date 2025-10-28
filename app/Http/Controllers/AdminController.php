@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\AdminLoginRequest;
-use Illuminate\Support\Facades\DB;
 use App\Models\Categories;
+use App\Models\Products;
 use App\Models\Suppliers;
 use App\Models\Users;
-use App\Models\Products;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -27,9 +27,12 @@ class AdminController extends Controller
     {
 
         $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
-        if (!$user) return redirect()->route('admin.login')->with('status', "Username hoặc password không đúng");
+        if (! $user) {
+            return redirect()->route('admin.login')->with('status', 'Username hoặc password không đúng');
+        }
         session()->put('login', true);
         session()->put('user_role', $user->role);
+
         return redirect()->route('admin.index');
     }
 
@@ -49,7 +52,7 @@ class AdminController extends Controller
 
     public function LoaiSanPham()
     {
-        $dsLoaisanpham =Categories::listCategories();
+        $dsLoaisanpham = Categories::listCategories();
 
         return view('admin.LoaiSanPhamAdmin', ['dsLoaisanpham' => $dsLoaisanpham]);
     }
@@ -66,22 +69,23 @@ class AdminController extends Controller
         return view('admin.addProduct');
     }
 
-     public function ThemSanPham(AddProductRequest $request)
+    public function ThemSanPham(AddProductRequest $request)
     {
         $validated = $request->validated();
-
-        $data = [
-            'name' => $validated['name'],
-            'price' => $validated['price'],
-            'discount_price' => $validated['discount_price'],
-            'description' => $validated['description'],
-            'category_id' => $validated['category_id'],
-            'loai' => $validated['type'],
-            'tags' => $validated['tag'],
-            'status' => $validated['status'],
-            'brand_id' => $validated['brand'],
-            'supplier_id' => $validated['supplier'],
-        ];
+       
+          $data = [
+        'name' => $validated['name'],
+        'price' => $validated['price'] ?? null,
+        'discount_price' => $validated['discount_price'] ?? null,
+        'description' => $validated['description'] ?? null,
+        'category_id' => $validated['category_id'] , 
+        'loai' => $validated['type'] ,
+        'image' => $imagePath ?? null,
+        'brand_id' => $validated['brand'] ,
+        'tags' => $validated['tag'] ?? null,
+        'status' => $validated['status'] ?? 1,
+        'supplier_id' => $validated['supplier'] ?? 1,
+    ];
 
         // Xử lý upload hình ảnh
         if ($request->hasFile('image')) {
@@ -97,6 +101,7 @@ class AdminController extends Controller
     public function responeJsonCategories()
     {
         $dsDanhMuc = Categories::listCategories();
-    return response()->json($dsDanhMuc);
+
+        return response()->json($dsDanhMuc);
     }
 }
