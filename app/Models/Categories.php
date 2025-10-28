@@ -11,4 +11,5 @@ class Categories extends Model
    {
     return self::all();
    }
+   
 }

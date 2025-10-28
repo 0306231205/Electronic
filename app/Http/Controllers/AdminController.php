@@ -66,30 +66,37 @@ class AdminController extends Controller
         return view('admin.addProduct');
     }
 
-    public function ThemSanPham(AddProductRequest $request)
+     public function ThemSanPham(AddProductRequest $request)
     {
-        $validate = $request->validated();
+        $validated = $request->validated();
+
         $data = [
-            'name' => $validate['name'],
-            'discount_price' => $validate['discount_price'] ?? 0,
-            'price' => $validate['price'] ?? 0,
-            'description' => $validate['description'] ?? null,
-            'category_id' => $validate['category'],
-            'loai' => $validate['type'],
-            'tags' => $validate['tag'] ?? null,
-            'status' => $validate['status'] ?? 0,
-            'brand_id' => $validate['brand'] ?? null,
-            'supplier_id' => $validate['supplier'],
-            'image' => $validate['image'] ?? null,
+            'name' => $validated['name'],
+            'price' => $validated['price'],
+            'discount_price' => $validated['discount_price'],
+            'description' => $validated['description'],
+            'category_id' => $validated['category_id'],
+            'loai' => $validated['type'],
+            'tags' => $validated['tag'],
+            'status' => $validated['status'],
+            'brand_id' => $validated['brand'],
+            'supplier_id' => $validated['supplier'],
         ];
+
+        // Xử lý upload hình ảnh
         if ($request->hasFile('image')) {
-            // store('uploads', 'public') dùng để lưu file
-            // file('image') là lấy file upload từ input
             $imagePath = $request->file('image')->store('uploads', 'public');
             $data['image'] = $imagePath;
         }
-       Products::insertProduct($data);
 
-        return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công');
+        Products::insertProduct($data);
+
+        return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công!');
+    }
+
+    public function responeJsonCategories()
+    {
+        $dsDanhMuc = Categories::listCategories();
+    return response()->json($dsDanhMuc);
     }
 }

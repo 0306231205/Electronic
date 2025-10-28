@@ -47,15 +47,16 @@ Route::get('/admin/loaisanpham',[AdminController::class,'LoaiSanPham'])->name('a
 Route::get('/admin/nguoidung',[AdminController::class,'NguoiDung'])->name('admin.nguoidung');
 //Router AddSanPham
 Route::get('/admin/addsanpham',[AdminController::class,'AddProduct'])->name('admin.addProduct');
-Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham']);
 
-
+Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham'])->name('admin.addsanpham');
+//Router lay danh sach (Get) danh muc 
+Route::get('/admin/categories', [AdminController::class, 'responeJsonCategories'])->name('admin.jSonCategories');
 
 
 
 //--------------------------------------------Middleware------------------------------------------------
 
-//Fallback lỗi url
+//Fallback lỗi url  
 Route::fallback(function(){
     return "<h1>URL khong ton tai</h1>";
 });
