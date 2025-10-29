@@ -8,8 +8,6 @@ class Products extends Model
 {
     protected $table = 'products';
 
-   
-
     protected $fillable = [
         'name',
         'price',
@@ -41,28 +39,25 @@ class Products extends Model
     }
 
     // --------------------------------------------Product Admin-----------------------------------------------
-            //Lấy Danh Sách Sản Phẩm
+    // Lấy Danh Sách Sản Phẩm
     public static function listProduct()
     {
-        return self::select('products.*', 'categories.name as category_name')
-        ->join('categories', 'categories.id', '=', 'products.category_id')
-        ->get();
+        return self::select('products.*', 'categories.name as category_name','brands.name as brand_name')
+            ->join('categories', 'categories.id', '=', 'products.category_id')
+            ->join('brands', 'brands.id', '=', 'products.brand_id')
+            ->get();
     }
-            //Thêm Sản Phẩm
+
+    // Thêm Sản Phẩm
     public static function insertProduct($data)
     {
         return self::create($data);
     }
 
     public function category()
-{
-    return $this->belongsTo(Categories::class, 'category_id');
-}
+    {
+        return $this->belongsTo(Categories::class, 'category_id');
+    }
 
-
-
-
-
-     public $timestamps = false;
-     
+    public $timestamps = false;
 }
