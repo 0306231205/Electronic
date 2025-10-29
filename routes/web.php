@@ -50,11 +50,10 @@ Route::middleware([IsLogin::class, IsAdmin::class])->group(function () {
     Route::post('/admin/addsanpham', [AdminController::class, 'ThemSanPham'])->name('admin.addsanpham');
     //Route Sản Phẩm Admin -> Xóa
     Route::delete('/admin/sanpham/xoa/{id}', [AdminController::class, 'XoaSanPham'])->name('admin.sanpham.xoa');
-
-    //Router lay danh sach (Get) danh muc
-    Route::get('/admin/categories', [AdminController::class, 'responeJsonCategories'])->name('admin.jSonCategories');
+//Router lay danh sach (Get) danh muc
+Route::get('/admin/categories', [AdminController::class, 'responeJsonCategories'])->name('admin.jSonCategories');
+Route::post('/admin/categories', [AdminController::class, 'addCategory']);
 });
-
 //Route Trang Login Admin
 //Nguyen Kien Duy dinh nghia route middleware  29/10/2025 18:14
 Route::middleware(QuayLaiTrangChuNeuDaDangNhap::class)->group(function () {
@@ -65,9 +64,6 @@ Route::middleware(QuayLaiTrangChuNeuDaDangNhap::class)->group(function () {
 
 
 //Router SảnPhẩm Admin -> Quản Lí Sản Phẩm -> Sản Phẩm
-
-
-
 
 //--------------------------------------------Middleware------------------------------------------------
 

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 // use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -99,6 +100,7 @@ class AdminController extends Controller
             'tags' => $validated['tag'] ?? null,
             'status' => $validated['status'] ?? 1,
             'supplier_id' => $validated['supplier'] ?? null,
+            'supplier_id' => $validated['supplier'] ?? 1,
         ];
 
         // Xử lý upload hình ảnh
@@ -139,4 +141,24 @@ class AdminController extends Controller
 
         return redirect()->route('admin.sanpham')->with('status', 'Xóa sản phẩm thành công');
     }
+    public function addCategory(Request $request)
+{
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255|unique:categories,name',
+        'status' => 'nullable|integer'
+    ]);
+
+
+    $data = [
+        'name' => $validated['name'],
+        'status' => $validated['status'] ?? 1,
+    ];
+
+
+    $newCategory = Categories::insertCategories($data);
+
+
+    return response()->json($newCategory, 201);
+}
 }
