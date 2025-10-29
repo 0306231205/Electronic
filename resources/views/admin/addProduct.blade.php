@@ -9,6 +9,7 @@
         <h2>Thêm sản phẩm mới</h2>
         <label>Tên sản phẩm:</label><br>
         <input type="text" name="name" required>
+
         @error("name")
             <span class="text text-danger" >{{$message}}</span>
         @enderror
