@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsLogin
+class QuayLaiTrangChuNeuDaDangNhap
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,9 @@ class IsLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session()->get('login') == true) {
-            return $next($request);
-        } else {
-            return redirect()->route('admin.login');
+        if (session()->get("login") == true) {
+            return redirect()->route("admin.index");
         }
+        return $next($request);
     }
 }

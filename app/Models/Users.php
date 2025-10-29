@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Users extends Model
 {
   protected $table = 'users';
-   public static function listUsers()
-   {
+  public $timestamps = false;
+  public static function listUsers()
+  {
     return self::all();
-   }
+  }
 }

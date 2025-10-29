@@ -22,15 +22,15 @@ class AdminLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username"=>"required",
-            "password"=>"required",
+            "username" => "required",
+            "password" => "required",
         ];
     }
-    public function messages(){
+    public function messages()
+    {
         return [
-            'username.required'=>"Tai khoan khong duoc de trong",
-            "password.required"=>"Mat khau khong duoc de trong"
+            'username.required' => "Tài khoản không được để trống",
+            "password.required" => "Mật khẩu không được để trống"
         ];
     }
-
 }

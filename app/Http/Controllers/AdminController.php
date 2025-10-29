@@ -9,6 +9,7 @@ use App\Models\Products;
 use App\Models\Suppliers;
 use App\Models\Users;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 // use Illuminate\Support\Facades\DB;
@@ -19,7 +20,6 @@ class AdminController extends Controller
     public function LoadAdmin()
     {
         return view('admin.HomeAdmin');
-        
     }
 
     public function loginPage()
@@ -30,11 +30,17 @@ class AdminController extends Controller
     public function login(AdminLoginRequest $request)
     {
 
-        $user = DB::table('users')->where('username', $request->username)->where('password', $request->password)->first();
-        if (! $user) {
-            return redirect()->route('admin.login')->with('status', 'Username hoặc password không đúng');
+
+        $user = Users::where("username", $request->username)->first(["username", "password", "role", "id", "name"]);
+        if (!$user) {
+            return redirect()->route('admin.login')->with('status', 'Đăng nhập không hợp lệ');
+        }
+        if (!Hash::check($request->password, $user->password)) {
+            return redirect()->route('admin.login')->with('status', 'Đăng nhập không hợp lệ');
         }
         session()->put('login', true);
+        session()->put("id", $user->id);
+        session()->put("name", $user->name);
         session()->put('user_role', $user->role);
 
         return redirect()->route('admin.index');
