@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Categories;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddProductRequest extends FormRequest
@@ -31,7 +32,7 @@ class AddProductRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'brand' => 'nullable|integer',
             'tag' => 'nullable|string|max:255',
-            'status' => 'nullable|integer',
+            'status' => 'required|integer',
             'supplier' => 'required|integer',
         ];
     }
@@ -39,9 +40,9 @@ class AddProductRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.unique' => 'Tên sản phẩm này đã tồn tại trong hệ thống!',
             'name.required' => 'Vui lòng nhập tên sản phẩm',
             'name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự',
-            'name.unique' => 'Tên sản phẩm này đã tồn tại trong hệ thống',
 
             'price.required' => 'Vui lòng nhập giá sản phẩm',
             'price.numeric' => 'Giá phải là số hợp lệ',
@@ -71,4 +72,14 @@ class AddProductRequest extends FormRequest
             'status.integer' => 'Trạng thái phải là số',
         ];
     }
+
+    // protected function prepareForValidation()
+    // {
+    //     // Nếu không có category_id thì gán danh mục đầu tiên
+    //     if (! $this->has('category_id') || empty($this->category_id)) {
+    //         $this->merge([
+    //             'category_id' => Categories::query()->value('id'),
+    //         ]);
+    //     }
+    // }
 }

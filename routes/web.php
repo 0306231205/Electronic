@@ -47,11 +47,12 @@ Route::get('/admin/loaisanpham',[AdminController::class,'LoaiSanPham'])->name('a
 Route::get('/admin/nguoidung',[AdminController::class,'NguoiDung'])->name('admin.nguoidung');
 //Router AddSanPham
 Route::get('/admin/addsanpham',[AdminController::class,'AddProduct'])->name('admin.addProduct');
-Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham']);
+Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham'])->name('admin.addsanpham');
 //Route Sản Phẩm Admin -> Xóa
 Route::delete('/admin/sanpham/xoa/{id}', [AdminController::class, 'XoaSanPham'])->name('admin.sanpham.xoa');
 
-
+//Router lay danh sach (Get) danh muc
+Route::get('/admin/categories', [AdminController::class, 'responeJsonCategories'])->name('admin.jSonCategories');
 
 
 

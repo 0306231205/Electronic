@@ -45,19 +45,21 @@
                         <td>{{ $dssanpham->discount_price }}</td>
                         <td>{{ $dssanpham->description }}</td>
                         <td>{{ $dssanpham->image }}</td>
-                        <td>{{ $dssanpham->category_id }}</td>
+                        <td>{{ $dssanpham->category_name }}</td>
                         <td>{{ $dssanpham->loai }}</td>
                         <td>{{ $dssanpham->tags }}</td>
                         <td>{{ $dssanpham->status }}</td>
-                        <td>{{ $dssanpham->brand_id }}</td>
+                        <td>{{ $dssanpham->brand_name }}</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="action-button edit-btn">✏️</button>
                                 <!-- form request xóa-->
-                                <form action="{{ route('admin.sanpham.xoa', $dssanpham->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('admin.sanpham.xoa', $dssanpham->id) }}" method="POST"
+                                    style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                        <button class="action-button delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">🗑️</button>
+                                    <button class="action-button delete-btn"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">🗑️</button>
                                 </form>
                             </div>
                         </td>
