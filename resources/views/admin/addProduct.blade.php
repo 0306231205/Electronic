@@ -13,6 +13,7 @@
         @error("name")
             <span class="text text-danger" >{{$message}}</span>
         @enderror
+        
         <br>
         <label>Giá:</label><br>
         <input type="number" name="price"  required>
