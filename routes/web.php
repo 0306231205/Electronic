@@ -51,6 +51,7 @@ Route::get('/admin/addsanpham',[AdminController::class,'AddProduct'])->name('adm
 Route::post('/admin/addsanpham',[AdminController::class,'ThemSanPham'])->name('admin.addsanpham');
 //Router lay danh sach (Get) danh muc 
 Route::get('/admin/categories', [AdminController::class, 'responeJsonCategories'])->name('admin.jSonCategories');
+Route::post('/admin/categories', [AdminController::class, 'addCategory']);
 
 
 

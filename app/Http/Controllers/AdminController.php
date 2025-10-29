@@ -9,6 +9,7 @@ use App\Models\Products;
 use App\Models\Suppliers;
 use App\Models\Users;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -72,20 +73,20 @@ class AdminController extends Controller
     public function ThemSanPham(AddProductRequest $request)
     {
         $validated = $request->validated();
-       
-          $data = [
-        'name' => $validated['name'],
-        'price' => $validated['price'] ?? null,
-        'discount_price' => $validated['discount_price'] ?? null,
-        'description' => $validated['description'] ?? null,
-        'category_id' => $validated['category_id'] , 
-        'loai' => $validated['type'] ,
-        'image' => $imagePath ?? null,
-        'brand_id' => $validated['brand'] ,
-        'tags' => $validated['tag'] ?? null,
-        'status' => $validated['status'] ?? 1,
-        'supplier_id' => $validated['supplier'] ?? 1,
-    ];
+
+        $data = [
+            'name' => $validated['name'],
+            'price' => $validated['price'] ?? null,
+            'discount_price' => $validated['discount_price'] ?? null,
+            'description' => $validated['description'] ?? null,
+            'category_id' => $validated['category_id'],
+            'loai' => $validated['type'],
+            'image' => $imagePath ?? null,
+            'brand_id' => $validated['brand'],
+            'tags' => $validated['tag'] ?? null,
+            'status' => $validated['status'] ?? 1,
+            'supplier_id' => $validated['supplier'] ?? 1,
+        ];
 
         // Xử lý upload hình ảnh
         if ($request->hasFile('image')) {
@@ -104,4 +105,25 @@ class AdminController extends Controller
 
         return response()->json($dsDanhMuc);
     }
+
+    public function addCategory(Request $request)
+{
+  
+    $validated = $request->validate([
+        'name' => 'required|string|max:255|unique:categories,name',
+        'status' => 'nullable|integer'
+    ]);
+
+
+    $data = [
+        'name' => $validated['name'],
+        'status' => $validated['status'] ?? 1,
+    ];
+
+
+    $newCategory = Categories::insertCategories($data);
+
+
+    return response()->json($newCategory, 201);
+}
 }
