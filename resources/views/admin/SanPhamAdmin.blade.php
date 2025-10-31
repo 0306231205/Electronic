@@ -14,7 +14,7 @@
         @endif
 
         <div class="header">
-            <a href="{{ route('admin.addProduct') }}" class="create-button">
+            <a  href="{{ route('admin.addProduct') }}" class="create-button" style="text-decoration: none;">
                 <span class="icon">+</span> Tạo mới
             </a>
         </div>

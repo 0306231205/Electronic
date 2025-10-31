@@ -20,6 +20,7 @@ class Products extends Model
         'status',
         'brand_id',
         'supplier_id',
+        'slug',
     ];
 
     // --------------------------------------------Product User-----------------------------------------------
@@ -58,6 +59,12 @@ class Products extends Model
     {
         return $this->belongsTo(Categories::class, 'category_id');
     }
+    public static function getSlug($slug)
+    {
+        return self::where('slug', $slug)->exists();
+    }
+
+
 
     public $timestamps = false;
 }

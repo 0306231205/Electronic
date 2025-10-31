@@ -17,11 +17,11 @@ class UserSeeder extends Seeder
         Users::create([
             "username" => "admin1",
             "password" => Hash::make("123456"),
-            "email" => "admin@gmail.com",
-            "phone" => "0923117865",
+            "email" => "admin1@gmail.com",
+            "phone" => "1234567892",
             "role" => 1,
-            "status" => 1,
-            "name" => "Nguyen Minh B"
+            "status" => 0,
+            "name" => "Nguyen Van L"
         ]);
     }
 }

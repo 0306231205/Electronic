@@ -11,8 +11,7 @@ use App\Models\Users;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-
-// use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -87,6 +86,8 @@ class AdminController extends Controller
     public function ThemSanPham(AddProductRequest $request)
     {
         $validated = $request->validated();
+        $slug = Str::slug($request->name,'-');
+        
 
         $data = [
             'name' => $validated['name'],
@@ -100,7 +101,7 @@ class AdminController extends Controller
             'tags' => $validated['tag'] ?? null,
             'status' => $validated['status'] ?? 1,
             'supplier_id' => $validated['supplier'] ?? null,
-            'supplier_id' => $validated['supplier'] ?? 1,
+            'slug' =>$slug,
         ];
 
         // Xử lý upload hình ảnh
@@ -108,19 +109,15 @@ class AdminController extends Controller
             $imagePath = $request->file('image')->store('uploads', 'public');
             $data['image'] = $imagePath;
         }
-
-
-        Products::insertProduct($data);
-
+  
+        $create=Products::insertProduct($data);
+        Products::find($create->id)->update([
+            "slug"=>$create->name."-".$create->id
+        ]);
         return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công!');
     }
 
-    public function responeJsonCategories()
-    {
-        $dsDanhMuc = Categories::listCategories();
-
-        return response()->json($dsDanhMuc);
-    }
+  
 
     // Controller xóa sản phẩm
     public function XoaSanPham($id)
@@ -141,6 +138,13 @@ class AdminController extends Controller
 
         return redirect()->route('admin.sanpham')->with('status', 'Xóa sản phẩm thành công');
     }
+
+  public function responeJsonCategories()
+    {
+        $dsDanhMuc = Categories::listCategories();
+
+        return response()->json($dsDanhMuc);
+    }
     public function addCategory(Request $request)
 {
 
@@ -157,8 +161,6 @@ class AdminController extends Controller
 
 
     $newCategory = Categories::insertCategories($data);
-
-
     return response()->json($newCategory, 201);
 }
 }
