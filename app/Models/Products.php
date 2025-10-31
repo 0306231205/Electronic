@@ -64,6 +64,13 @@ class Products extends Model
         return self::where('slug', $slug)->exists();
     }
 
+   public static function updateSlug($create)
+   {
+    return self::find($create->id)->update([
+            "slug"=>$create->name."-".$create->id
+        ]);
+   }
+
 
 
     public $timestamps = false;

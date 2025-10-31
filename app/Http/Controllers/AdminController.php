@@ -111,9 +111,8 @@ class AdminController extends Controller
         }
   
         $create=Products::insertProduct($data);
-        Products::find($create->id)->update([
-            "slug"=>$create->name."-".$create->id
-        ]);
+
+        Products::updateSlug($create);
         return redirect()->route('admin.sanpham')->with('status', 'Thêm sản phẩm thành công!');
     }
 
